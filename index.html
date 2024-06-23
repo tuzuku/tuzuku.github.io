@@ -126,13 +126,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -169,82 +169,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://tuzuku.github.io/2027/01/28/2024-01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/img/avatar.jpg">
-      <meta itemprop="name" content="tuzuku">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TUZUKU">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | TUZUKU">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2027/01/28/2024-01/" class="post-title-link" itemprop="url">碎碎念</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2027-01-28 22:02:00" itemprop="dateCreated datePublished" datetime="2027-01-28T22:02:00+08:00">2027-01-28</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>我使用了gitpages 建了博客之后一直没有写过内容，<del>可能</del> <del>也许</del> <del>大概率</del> 之后会在这里记录一些琐碎的事情。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2027/01/28/2024-01/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -297,109 +221,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h1><p>状态模式（State Pattern）是一种行为设计模式，它允许一个对象在其内部状态改变时改变它的行为。通过将状态封装成独立的类，并将行为委托给代表当前状态的对象，从而<strong>实现状态与行为的分离。</strong></p>
-<h2 id="关键组件"><a href="#关键组件" class="headerlink" title="关键组件:"></a>关键组件:</h2><ol>
-<li><strong>上下文（Context）</strong>：<ul>
-<li>维护一个指向当前状态的引用，用来表示当前状态</li>
-<li>提供修改状态的方法，允许状态对象自行切换到其他状态。</li>
-<li>可向外界提供一些接口，用于触发状态对应的行为。</li>
-</ul>
-</li>
-<li><strong>抽象状态类（State）</strong>：<ul>
-<li>定义一个接口以封装与环境类的一个特定状态相关的行为。</li>
-<li>封装一些方法处理上下文的请求，这些请求根据对象的状态有不同的实现</li>
-</ul>
-</li>
-<li><strong>具体状态类（Concrete State）</strong>：<ul>
-<li>每个类对应于环境类的一个具体状态，并实现该状态下应有的行为。</li>
-<li>可以在需要时改变<code>Context</code> 的状态，由于<code>Context</code> 实例通常作为参数传递给具体状态对象，所以具体状态对象可以根据环境的情况决定转换到其他状态。</li>
-</ul>
-</li>
-</ol>
-<p><img src="/img/statepattern.png"></p>
-<h2 id="状态模式的工作流程"><a href="#状态模式的工作流程" class="headerlink" title="状态模式的工作流程"></a>状态模式的工作流程</h2><ol>
-<li>请求处理<ol>
-<li>Context 接收到请求后，将请求下发给当前状态的对象来处理</li>
-<li>Context 本身不决定如何响应各种请求，所有的决策权都在<code>Concrete State</code> 中</li>
-</ol>
-</li>
-<li>状态转换<ol>
-<li>处理请求的过程中，状态可以判断是否需要转到另一个状态</li>
-<li>状态转换通常是通过调用Context 提供的方法来实现，这些方法会改变上下文持有的State 对象</li>
-</ol>
-</li>
-<li>行为变更<ol>
-<li>一旦状态发生变化，随后的请求就会根据新的状态来处理，从而改变对象的行为</li>
-</ol>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// State interface</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">State</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">handleRequest</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Concrete states</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteStateA</span> <span class="keyword">implements</span> <span class="title class_">State</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleQequest</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;State A handling request.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcreteStateB</span> <span class="keyword">implements</span> <span class="title class_">State</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;State B handling request.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Context class</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Context</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> State currentState;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Context</span><span class="params">(State state)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.currentState = state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setState</span><span class="params">(State state)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.currentState = state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span> &#123;</span><br><span class="line">        currentState.handleRequest();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Usage</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Context</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Context</span>(<span class="keyword">new</span> <span class="title class_">ConcreteStateA</span>());</span><br><span class="line">        context.request();  <span class="comment">// Output: State A handling request.</span></span><br><span class="line">        context.setState(<span class="keyword">new</span> <span class="title class_">ConcreteStateB</span>());</span><br><span class="line">        context.request();  <span class="comment">// Output: State B handling handling request.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="Spring-StateMachine"><a href="#Spring-StateMachine" class="headerlink" title="Spring StateMachine"></a>Spring StateMachine</h1><p>Spring StateMachine 是一个基于 Spring Framework 的库，专门用于管理状态机，并在 Spring 应用中实现状态模式。</p>
-<h2 id="主要特性"><a href="#主要特性" class="headerlink" title="主要特性"></a>主要特性</h2><p>Spring StateMachine 提供以下主要特性：</p>
-<ul>
-<li><strong>状态管理</strong>：支持状态的定义、状态转换以及状态间的事件触发。</li>
-<li><strong>事件处理</strong>：基于事件驱动，可以响应并处理来自应用程序的各种事件。</li>
-<li><strong>状态机监听</strong>：允许开发者添加监听器来监控状态机的状态变化或事件触发。</li>
-<li><strong>持久化</strong>：支持状态机的持久化，使得状态机即使在应用重启后也能恢复到之前的状态。</li>
-<li><strong>易于集成</strong>：可以轻松地与 Spring 应用集成，利用 Spring 的依赖注入等特性。</li>
-</ul>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>Spring StateMachine 非常适合处理复杂的业务流程和状态管理问题，例如：</p>
-<ul>
-<li>订单处理流程（如订单创建、支付、发货、完成）</li>
-<li>工作流管理</li>
-<li>游戏逻辑的状态控制</li>
-<li>设备的状态监控系统</li>
-</ul>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在使用 Spring StateMachine 时，主要涉及以下几个概念：</p>
-<ol>
-<li><p><strong>状态（State）</strong>：</p>
-<ul>
-<li>系统的某个具体状态，如订单的“已支付”、“未支付”状态。</li>
-</ul>
-</li>
-<li><p><strong>事件（Event）</strong>：</p>
-<ul>
-<li>触发状态转换的行为，如“支付成功”事件可能会将订单状态从“未支付”改变为“已支付”。</li>
-</ul>
-</li>
-<li><p><strong>转换（Transition）</strong>：</p>
-<ul>
-<li>状态之间的迁移规则，定义了在什么事件下，从哪个状态转移到哪个状态。</li>
-</ul>
-</li>
-<li><p><strong>动作（Action）</strong>：</p>
-<ul>
-<li>在状态转换发生时执行的业务逻辑，比如在订单支付成功时发送一封确认邮件。</li>
-<li>进入动作：进入状态时的执行</li>
-<li>退出动作：退出状态时的执行</li>
-<li>转换动作：因事件而发生状态转换的执行</li>
-</ul>
-</li>
-<li><p><strong>守卫（Guard）</strong></p>
-</li>
-</ol>
-<ul>
-<li>评估为真才能进行状态换船的条件，如果不满足条件则不进行转换</li>
-</ul>
-<p>Spring StateMachine 为管理复杂的状态逻辑提供了一个结构化和强大的解决方案，它使得状态转换逻辑更加清晰，并且易于维护。通过集成到 Spring 框架中，它也可以利用 Spring 提供的其他功能，如依赖注入和事务管理，从而使开发工作更加便捷。</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p><img src="/img/state-pattern/order-state.png" alt="订单状态"></p>
-<h3 id="订单状态"><a href="#订单状态" class="headerlink" title="订单状态"></a>订单状态</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">States</span> &#123;</span><br><span class="line">    UNPAID, <span class="comment">// 待支付</span></span><br><span class="line">    WAITING_FOR_RECEIVE, <span class="comment">// 待收货</span></span><br><span class="line">    DONE, <span class="comment">// 已完成</span></span><br><span class="line">    CANCELED <span class="comment">// 已取消</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Events</span> &#123;</span><br><span class="line">    PAY, <span class="comment">// 支付</span></span><br><span class="line">    RECEIVE, <span class="comment">// 收货</span></span><br><span class="line">    CANCEL <span class="comment">// 取消</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置状态机"><a href="#配置状态机" class="headerlink" title="配置状态机"></a>配置状态机</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableStateMachine</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StateMachineConfig</span> <span class="keyword">extends</span> <span class="title class_">EnumStateMachineConfigurerAdapter</span>&lt;States, Events&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(StateMachineStateConfigurer&lt;States, Events&gt; states)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        states</span><br><span class="line">            .withStates()</span><br><span class="line">                .initial(States.UNPAID)</span><br><span class="line">                .state(States.WAITING_FOR_RECEIVE)</span><br><span class="line">                .end(States.DONE)</span><br><span class="line">                .end(States.CANCELED);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(StateMachineTransitionConfigurer&lt;States, Events&gt; transitions)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        transitions</span><br><span class="line">            .withExternal()</span><br><span class="line">                .source(States.UNPAID).target(States.WAITING_FOR_RECEIVE).event(Events.PAY)</span><br><span class="line">                .and()</span><br><span class="line">            .withExternal()</span><br><span class="line">                .source(States.WAITING_FOR_RECEIVE).target(States.DONE).event(Events.RECEIVE)</span><br><span class="line">                .and()</span><br><span class="line">            .withExternal()</span><br><span class="line">                .source(States.UNPAID).target(States.CANCELED).event(Events.CANCEL)</span><br><span class="line">                .and()</span><br><span class="line">            .withExternal()</span><br><span class="line">                .source(States.WAITING_FOR_RECEIVE).target(States.CANCELED).event(Events.CANCEL);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> StateMachineListener&lt;States, Events&gt; <span class="title function_">listener</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">StateMachineListenerAdapter</span>&lt;States, Events&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stateChanged</span><span class="params">(State&lt;States, Events&gt; from, State&lt;States, Events&gt; to)</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;State changed from &quot;</span> + (from == <span class="literal">null</span> ? <span class="string">&quot;none&quot;</span> : from.getId()) + <span class="string">&quot; to &quot;</span> + to.getId());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StateMachineTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">SpringApplication</span> <span class="variable">app</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringApplication</span>(StateMachineTest.class);</span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> app.run(args);</span><br><span class="line">        StateMachine&lt;States, Events&gt; stateMachine = context.getBean(StateMachine.class);</span><br><span class="line">        stateMachine.start();</span><br><span class="line">        stateMachine.sendEvent(Events.PAY);</span><br><span class="line">        stateMachine.sendEvent(Events.RECEIVE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/bookDetail/c4032270727da196c40104a">《设计模式的艺术》</a></li>
-<li><a target="_blank" rel="noopener" href="https://refactoringguru.cn/design-patterns/state">状态模式</a></li>
-<li><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-statemachine">Spring StateMachine</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@alishazy/spring-statemachine-a-comprehensive-guide-31dc346a600d">Spring Statemachine: A Comprehensive Guide</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/01/29/spring-state-machine-sample/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
