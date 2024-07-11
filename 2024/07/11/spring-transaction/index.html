@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tuzuku.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Spring事务管理笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 事务管理">
+<meta property="og:url" content="https://tuzuku.github.io/2024/07/11/spring-transaction/index.html">
+<meta property="og:site_name" content="TUZUKU">
+<meta property="og:description" content="Spring事务管理笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-11T14:24:02.000Z">
+<meta property="article:modified_time" content="2024-07-11T14:28:37.045Z">
+<meta property="article:author" content="tuzuku">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://tuzuku.github.io/2024/07/11/spring-transaction/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://tuzuku.github.io/2024/07/11/spring-transaction/","path":"2024/07/11/spring-transaction/","title":"Spring 事务管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Spring 事务管理 | TUZUKU</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">TUZUKU</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E6%89%98%E7%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">事务托管</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional-%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.1.</span> <span class="nav-text">@Transactional 注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional-%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88"><span class="nav-number">1.2.</span> <span class="nav-text">@Transactional 注解失效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%B7%A5%E7%AE%A1%E7%90%86%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">手工管理事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PlatformTransactionManager"><span class="nav-number">2.1.</span> <span class="nav-text">PlatformTransactionManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8TransactionTemplate"><span class="nav-number">2.2.</span> <span class="nav-text">使用TransactionTemplate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="tuzuku"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">tuzuku</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tuzuku" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tuzuku" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chowt1120@gmail.com" title="E-Mail → mailto:chowt1120@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tuzuku.github.io/2024/07/11/spring-transaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="tuzuku">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TUZUKU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Spring 事务管理 | TUZUKU">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring 事务管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-11 22:24:02" itemprop="dateCreated datePublished" datetime="2024-07-11T22:24:02+08:00">2024-07-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Spring事务管理笔记</p>
+<span id="more"></span>
+
+<h2 id="事务托管"><a href="#事务托管" class="headerlink" title="事务托管"></a>事务托管</h2><p>使用<code>@Transacational</code> 注解托管事务，有AOP 动态代理编织方法；实现事务自动创建自动提交自动回滚</p>
+<h3 id="Transactional-注解"><a href="#Transactional-注解" class="headerlink" title="@Transactional 注解"></a>@Transactional 注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span>  </span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>  </span><br><span class="line"><span class="meta">@Inherited</span>  </span><br><span class="line"><span class="meta">@Documented</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Transactional &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@AliasFor(&quot;transactionManager&quot;)</span>  </span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;  </span><br><span class="line"> </span><br><span class="line">    <span class="meta">@AliasFor(&quot;value&quot;)</span>  </span><br><span class="line">    String <span class="title function_">transactionManager</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;  </span><br><span class="line">	String[] label() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">  </span><br><span class="line">    Propagation <span class="title function_">propagation</span><span class="params">()</span> <span class="keyword">default</span> Propagation.REQUIRED;    </span><br><span class="line">    Isolation <span class="title function_">isolation</span><span class="params">()</span> <span class="keyword">default</span> Isolation.DEFAULT;  </span><br><span class="line">  </span><br><span class="line">    <span class="type">int</span> <span class="title function_">timeout</span><span class="params">()</span> <span class="keyword">default</span> TransactionDefinition.TIMEOUT_DEFAULT;  </span><br><span class="line">  </span><br><span class="line">    String <span class="title function_">timeoutString</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">readOnly</span><span class="params">()</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">    Class&lt;? <span class="keyword">extends</span> <span class="title class_">Throwable</span>&gt;[] rollbackFor() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">  </span><br><span class="line">    String[] rollbackForClassName() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">    Class&lt;? <span class="keyword">extends</span> <span class="title class_">Throwable</span>&gt;[] noRollbackFor() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">    String[] noRollbackForClassName() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>transactionManager</strong>：事务管理器<br><strong>timeout</strong>: 事务超时时间，默认-1，<strong>单位秒</strong><br><strong>rollbackFor</strong> ： 指定异常回滚<br><strong>nonRollbackFor</strong>： 指定异常不回滚<br><strong>label</strong>： 标签，描述用<br><strong>readOnly</strong> ： 是否只读，标识之后事务使用只读模式<br> <strong>isolation 隔离级别</strong>： 虽然在代码里面可以设置隔离级别，但是<strong>实际的隔离级别以数据库设置的为准</strong>，所以一般也不会在编码的时候设置这个参数.</p>
+<ul>
+<li>读未提交</li>
+<li>读已提交</li>
+<li>可重复读</li>
+<li>串行化</li>
+</ul>
+<blockquote>
+<p>事务并发问题：</p>
+<ol>
+<li>脏读，在事务A 读到了事务B 未提交的数据，如果事务B 因为异常回滚了，读取到的就是脏数据。当前事务隔离级别未读未提交</li>
+<li>不可重复读，在事务A读到的数据第一次与第二次读到的数据不一致；因为读到的数据在事务B 修改提交之后，在事务A 就能跟读到。当前事务隔离级别为读已提交</li>
+<li>幻读，在事务中，第一次读到的数据，与第二次读到的数据条目不一致，第一次可能是一条，第二次读到了两条；因为另外的事务读到的； 当前事务隔离级别为可重复读</li>
+</ol>
+</blockquote>
+<p> <strong>propagation 传播级别</strong></p>
+<ul>
+<li>REQUIRED: 默认传播级别，支持当前事务，如果当前存在事务就继续使用，如果不存在则创建一个新事务</li>
+<li>SUPPORTS：支持当前事务，如果当前不存在事务，就保持不在事务里面</li>
+<li>MANDATORY：支持当前事务，如果事务不存在，则抛出异常</li>
+<li>REQUIRES_NEW：创建一个新的事务，如果当前存在一个事务，则suspend 当前事务</li>
+<li>NOT_SUPPORTED：保证当前无事务存在，如果存在事务则将当前事务suspend</li>
+<li>NEVER：无事务执行，如果存在事务则抛出异常</li>
+<li>NESTED ：如果当前事务存在，则嵌套在当前事务中执行。</li>
+</ul>
+<h3 id="Transactional-注解失效"><a href="#Transactional-注解失效" class="headerlink" title="@Transactional 注解失效"></a>@Transactional 注解失效</h3><ul>
+<li>没有使用动态代理</li>
+<li>方法非public</li>
+<li>方法所在的类不是由spring 进行管理的</li>
+<li>this 方法直接调用….</li>
+</ul>
+<h2 id="手工管理事务"><a href="#手工管理事务" class="headerlink" title="手工管理事务"></a>手工管理事务</h2><h3 id="PlatformTransactionManager"><a href="#PlatformTransactionManager" class="headerlink" title="PlatformTransactionManager"></a>PlatformTransactionManager</h3><p>另外一种常见的方法就是手工管理事务，主要是下面三个组件</p>
+<ul>
+<li><code>PlatformTransactionManager</code></li>
+<li><code>TranscationDefinition</code>,  事务相关属性定义，属性与注解的一致<ul>
+<li><code>DefaultTransactionDefinition</code>,</li>
+</ul>
+</li>
+<li><code>TransactionStatus</code>，事务状态对象<ul>
+<li><code>TransactionExecution</code> ： 事务当前执行状态</li>
+<li><code>SavepointManager</code>： 编程式事务管理的接口</li>
+</ul>
+</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span>  <span class="keyword">class</span> <span class="title class_">TransactionDemoService</span> &#123;  </span><br><span class="line">    <span class="meta">@Autowired</span>  </span><br><span class="line">    PlatformTransactionManager platformTransactionManager;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">func</span><span class="params">(<span class="type">int</span> a)</span> &#123;  </span><br><span class="line">        <span class="type">DefaultTransactionDefinition</span> <span class="variable">defaultTransactionDefinition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultTransactionDefinition</span>();  </span><br><span class="line">        defaultTransactionDefinition.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);  </span><br><span class="line">        defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);  </span><br><span class="line">        defaultTransactionDefinition.setTimeout(<span class="number">100</span>);  </span><br><span class="line">  </span><br><span class="line">        <span class="type">TransactionStatus</span> <span class="variable">transaction</span> <span class="operator">=</span> platformTransactionManager.getTransaction(defaultTransactionDefinition);  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">        </span><br><span class="line">			<span class="keyword">if</span>(a == <span class="number">100</span>) &#123;</span><br><span class="line">			  <span class="keyword">return</span> ;</span><br><span class="line">			&#125;</span><br><span class="line">            <span class="type">Object</span> <span class="variable">savepoint</span> <span class="operator">=</span> transaction.createSavepoint();  </span><br><span class="line">            transaction.rollbackToSavepoint(savepoint);  </span><br><span class="line">  </span><br><span class="line">            <span class="type">Object</span> <span class="variable">secondSavepoint</span> <span class="operator">=</span> transaction.createSavepoint();  </span><br><span class="line">            transaction.releaseSavepoint(secondSavepoint);  </span><br><span class="line">              </span><br><span class="line">            platformTransactionManager.commit(transaction);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            platformTransactionManager.rollback(transaction);  </span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;  </span><br><span class="line">            <span class="keyword">if</span> (!transaction.isCompleted()) &#123;  </span><br><span class="line">                platformTransactionManager.rollback(transaction);  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ps: 最后finally 模块最好加上，避免因为其他业务逻辑直接return而没有提交事务；</strong></p>
+<h3 id="使用TransactionTemplate"><a href="#使用TransactionTemplate" class="headerlink" title="使用TransactionTemplate"></a>使用TransactionTemplate</h3><p>上述代码还是比较繁琐，所以spring 提供了模板回调方法用于简化</p>
+<p>源码：TransactionTemplate#execute 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="meta">@Nullable</span>  </span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; T <span class="title function_">execute</span><span class="params">(TransactionCallback&lt;T&gt; action)</span> <span class="keyword">throws</span> TransactionException &#123;  </span><br><span class="line">    Assert.state(<span class="built_in">this</span>.transactionManager != <span class="literal">null</span>, <span class="string">&quot;No PlatformTransactionManager set&quot;</span>);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.transactionManager <span class="keyword">instanceof</span> CallbackPreferringPlatformTransactionManager) &#123;  </span><br><span class="line">       <span class="keyword">return</span> ((CallbackPreferringPlatformTransactionManager) <span class="built_in">this</span>.transactionManager).execute(<span class="built_in">this</span>, action);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span> &#123;  </span><br><span class="line">       <span class="type">TransactionStatus</span> <span class="variable">status</span> <span class="operator">=</span> <span class="built_in">this</span>.transactionManager.getTransaction(<span class="built_in">this</span>);  </span><br><span class="line">       T result;  </span><br><span class="line">       <span class="keyword">try</span> &#123;  </span><br><span class="line">          result = action.doInTransaction(status);  </span><br><span class="line">       &#125;  </span><br><span class="line">       <span class="keyword">catch</span> (RuntimeException | Error ex) &#123;  </span><br><span class="line">          <span class="comment">// Transactional code threw application exception -&gt; rollback  </span></span><br><span class="line">          rollbackOnException(status, ex);  </span><br><span class="line">          <span class="keyword">throw</span> ex;  </span><br><span class="line">       &#125;  </span><br><span class="line">       <span class="keyword">catch</span> (Throwable ex) &#123;  </span><br><span class="line">          <span class="comment">// Transactional code threw unexpected exception -&gt; rollback  </span></span><br><span class="line">          rollbackOnException(status, ex);  </span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UndeclaredThrowableException</span>(ex, <span class="string">&quot;TransactionCallback threw undeclared checked exception&quot;</span>);  </span><br><span class="line">       &#125;  </span><br><span class="line">       <span class="built_in">this</span>.transactionManager.commit(status);  </span><br><span class="line">       <span class="keyword">return</span> result;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span>  </span><br><span class="line"><span class="keyword">private</span> TransactionTemplate transactionTemplate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">func</span><span class="params">()</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);  </span><br><span class="line">    transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);  </span><br><span class="line">  </span><br><span class="line">    <span class="type">Object</span> <span class="variable">execute</span> <span class="operator">=</span> transactionTemplate.execute(callback -&gt; &#123;  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">savepoint</span> <span class="operator">=</span> callback.createSavepoint();  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="comment">//事务操作  </span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            callback.rollbackToSavepoint(savepoint);  </span><br><span class="line">  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;  </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_16065421/6183202">https://blog.51cto.com/u_16065421/6183202</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LQBlog/p/5468023.html">https://www.cnblogs.com/LQBlog/p/5468023.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengchaowang/p/4122579.html">https://www.cnblogs.com/fengchaowang/p/4122579.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/903c01cb2a77">https://www.jianshu.com/p/903c01cb2a77</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/justloveyou_/article/details/73733278">https://blog.csdn.net/justloveyou_/article/details/73733278</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"># spring</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/07/06/computer-netwotk-application-layer/" rel="prev" title="『计算机网络』 应用层">
+                  <i class="fa fa-chevron-left"></i> 『计算机网络』 应用层
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tuzuku</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"tuzuku","repo":"tuzuku.github.io","client_id":"Ov23liBlDVtZHmIkHmnz","client_secret":"04b7b5fef6b893a8a860bb0e4e22dba8086b8c3e","admin_user":"tuzuku","distraction_free_mode":true,"language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"b7d515bd3ea277c302017da0d8538cd9"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
