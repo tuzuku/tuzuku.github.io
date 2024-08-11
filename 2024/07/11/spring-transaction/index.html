@@ -18,17 +18,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"tuzuku.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tuzuku.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"gitalk":{"text":"Load Disqus","order":-1}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="本文简单讲述一下Spring 事务托管。">
+    <meta name="description" content="作为CURD 码农，事务管理是我开发中经常写的或者考虑的内容，本文将结合spring 框架讲一下我在开发中遇到的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring 事务管理">
 <meta property="og:url" content="https://tuzuku.github.io/2024/07/11/spring-transaction/index.html">
 <meta property="og:site_name" content="TUZUKU">
-<meta property="og:description" content="本文简单讲述一下Spring 事务托管。">
+<meta property="og:description" content="作为CURD 码农，事务管理是我开发中经常写的或者考虑的内容，本文将结合spring 框架讲一下我在开发中遇到的问题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-11T14:24:02.000Z">
-<meta property="article:modified_time" content="2024-08-09T11:12:01.296Z">
+<meta property="article:modified_time" content="2024-08-11T02:06:35.761Z">
 <meta property="article:author" content="tuzuku">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
@@ -117,7 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E6%89%98%E7%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">事务托管</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional-%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.1.</span> <span class="nav-text">@Transactional 注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional-%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88"><span class="nav-number">1.2.</span> <span class="nav-text">@Transactional 注解失效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%B7%A5%E7%AE%A1%E7%90%86%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">手工管理事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PlatformTransactionManager"><span class="nav-number">2.1.</span> <span class="nav-text">PlatformTransactionManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8TransactionTemplate"><span class="nav-number">2.2.</span> <span class="nav-text">使用TransactionTemplate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-%E4%BA%8B%E5%8A%A1%E6%89%98%E7%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">Spring 事务托管</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional-%E6%B3%A8%E8%A7%A3"><span class="nav-number">2.1.</span> <span class="nav-text">@Transactional 注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transactional-%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88"><span class="nav-number">2.2.</span> <span class="nav-text">@Transactional 注解失效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%B7%A5%E7%AE%A1%E7%90%86%E4%BA%8B%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">手工管理事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PlatformTransactionManager"><span class="nav-number">3.1.</span> <span class="nav-text">PlatformTransactionManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8TransactionTemplate"><span class="nav-number">3.2.</span> <span class="nav-text">使用TransactionTemplate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.</span> <span class="nav-text">一些实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -221,35 +221,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>本文简单讲述一下Spring 事务托管。</p>
+        <p>作为CURD 码农，事务管理是我开发中经常写的或者考虑的内容，本文将结合spring 框架讲一下我在开发中遇到的问题。</p>
 <span id="more"></span>
 
-<h2 id="事务托管"><a href="#事务托管" class="headerlink" title="事务托管"></a>事务托管</h2><p>使用<code>@Transacational</code> 注解托管事务，有AOP 动态代理编织方法；实现事务自动创建自动提交自动回滚。</p>
+
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>事务的四个特点：Atomicity,Consistency,Isolation,Durability。</p>
+<p><strong>Atomictiy</strong> ：一个事务当成一个单位，所有的数据库操作要么全部执行成功，要么全部执行失败。<br><strong>Consistency</strong>: 保证事务将数据库从一种有效状态带到另一种有效状态。根据所有定义的规则和约束，写入数据库的所有数据必须是有效的。<br><strong>Isolation</strong>：当多个事务并发处理数据时，根据不同的隔离级别，事务之间数据的可见性不一样。四个隔离级别：Read Uncommited，Read Commited, Repeatable Read, Serializable。</p>
+<blockquote>
+<p>事务并发问题：</p>
+<ol>
+<li>脏读，在事务A 读到了事务B 未提交的数据，如果事务B 因为异常回滚了，读取到的就是脏数据。当前事务隔离级别未读未提交</li>
+<li>不可重复读，在事务A读到的数据第一次与第二次读到的数据不一致；因为读到的数据在事务B 修改提交之后，在事务A 就能跟读到。当前事务隔离级别为读已提交</li>
+<li>幻读，在事务中，第一次读到的数据，与第二次读到的数据条目不一致，第一次可能是一条，第二次读到了两条；因为另外的事务读到的； 当前事务隔离级别为可重复读<br>MySQL (InnoDB): 默认为REPEATABLE READ</li>
+</ol>
+</blockquote>
+<p><strong>Durability</strong>: 一个事务一旦提交就会被保存，即使是断电，系统crash了</p>
+<h2 id="Spring-事务托管"><a href="#Spring-事务托管" class="headerlink" title="Spring 事务托管"></a>Spring 事务托管</h2><p>使用<code>@Transacational</code> 注解托管事务，有AOP 动态代理编织方法；实现事务自动创建自动提交自动回滚。</p>
 <blockquote>
 <p>在使用注解之前要确保在Spring 配置中启用了事务管理。</p>
 </blockquote>
 <h3 id="Transactional-注解"><a href="#Transactional-注解" class="headerlink" title="@Transactional 注解"></a>@Transactional 注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span>  </span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>  </span><br><span class="line"><span class="meta">@Inherited</span>  </span><br><span class="line"><span class="meta">@Documented</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Transactional &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@AliasFor(&quot;transactionManager&quot;)</span>  </span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;  </span><br><span class="line"> </span><br><span class="line">    <span class="meta">@AliasFor(&quot;value&quot;)</span>  </span><br><span class="line">    String <span class="title function_">transactionManager</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;  </span><br><span class="line">	String[] label() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">  </span><br><span class="line">    Propagation <span class="title function_">propagation</span><span class="params">()</span> <span class="keyword">default</span> Propagation.REQUIRED;    </span><br><span class="line">    Isolation <span class="title function_">isolation</span><span class="params">()</span> <span class="keyword">default</span> Isolation.DEFAULT;  </span><br><span class="line">  </span><br><span class="line">    <span class="type">int</span> <span class="title function_">timeout</span><span class="params">()</span> <span class="keyword">default</span> TransactionDefinition.TIMEOUT_DEFAULT;  </span><br><span class="line">  </span><br><span class="line">    String <span class="title function_">timeoutString</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">readOnly</span><span class="params">()</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">    Class&lt;? <span class="keyword">extends</span> <span class="title class_">Throwable</span>&gt;[] rollbackFor() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">  </span><br><span class="line">    String[] rollbackForClassName() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">    Class&lt;? <span class="keyword">extends</span> <span class="title class_">Throwable</span>&gt;[] noRollbackFor() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">    String[] noRollbackForClassName() <span class="keyword">default</span> &#123;&#125;;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-
 <p>@Transactional 注解可以在方法上使用，也可以在类上使用。</p>
 <p>在类上使用时，所有的public 方法都会被事务管理，但是颗粒度较大，使用不当会造成没有必要的事务开销。</p>
-<p><strong>transactionManager</strong>：事务管理器<br><strong>timeout</strong>: 事务超时时间，默认-1，<strong>单位秒</strong><br><strong>rollbackFor</strong> ： 指定异常回滚<br><strong>nonRollbackFor</strong>： 指定异常不回滚<br><strong>label</strong>： 标签，描述用<br><strong>readOnly</strong> ： 是否只读，标识之后事务使用只读模式<br> <strong>isolation 隔离级别</strong>： 虽然在代码里面可以设置隔离级别，但是<strong>实际的隔离级别以数据库设置的为准</strong>，所以一般也不会在编码的时候设置这个参数.</p>
-<ul>
-<li>读未提交</li>
-<li>读已提交</li>
-<li>可重复读</li>
-<li>串行化</li>
-</ul>
-<blockquote>
-<p>事务并发问题：</p>
-<ol>
-<li>脏读，在事务A 读到了事务B 未提交的数据，如果事务B 因为异常回滚了，读取到的就是脏数据。当前事务隔离级别未读未提交</li>
-<li>不可重复读，在事务A读到的数据第一次与第二次读到的数据不一致；因为读到的数据在事务B 修改提交之后，在事务A 就能跟读到。当前事务隔离级别为读已提交</li>
-<li>幻读，在事务中，第一次读到的数据，与第二次读到的数据条目不一致，第一次可能是一条，第二次读到了两条；因为另外的事务读到的； 当前事务隔离级别为可重复读</li>
-</ol>
-</blockquote>
-<p> <strong>propagation 传播级别</strong></p>
+<p><strong>transactionManager</strong>：事务管理器<br><strong>timeout</strong>: 事务超时时间，默认-1，<strong>单位秒</strong><br><strong>rollbackFor</strong> ： 指定异常回滚<br><strong>nonRollbackFor</strong>： 指定异常不回滚<br><strong>label</strong>： 标签，描述用<br><strong>readOnly</strong> ： 是否只读，标识之后事务使用只读模式<br><strong>isolation 隔离级别</strong>： 虽然在代码里面可以设置隔离级别，但是<strong>实际的隔离级别以数据库设置的为准</strong>，所以一般也不会在编码的时候设置这个参数.<br><strong>propagation 传播级别</strong></p>
 <ul>
 <li>REQUIRED: 默认传播级别，支持当前事务，如果当前存在事务就继续使用，如果不存在则创建一个新事务</li>
 <li>SUPPORTS：支持当前事务，如果当前不存在事务，就保持不在事务里面</li>
@@ -259,12 +255,8 @@
 <li>NEVER：无事务执行，如果存在事务则抛出异常</li>
 <li>NESTED ：如果当前事务存在，则嵌套在当前事务中执行。</li>
 </ul>
-<h3 id="Transactional-注解失效"><a href="#Transactional-注解失效" class="headerlink" title="@Transactional 注解失效"></a>@Transactional 注解失效</h3><ul>
-<li>没有使用动态代理</li>
-<li>方法非public</li>
-<li>方法所在的类不是由spring 进行管理的</li>
-<li>this 方法直接调用….</li>
-</ul>
+<h3 id="Transactional-注解失效"><a href="#Transactional-注解失效" class="headerlink" title="@Transactional 注解失效"></a>@Transactional 注解失效</h3><p>为什么我加了@Transactional 注解但是事务没生效，导致数据不一致？</p>
+<p>前面我们提到，Spring 事务管理是通过AOP 动态代理实现的，如果没有生效，应该要看看使用了注解的方法或者类，是否被spring 管理.</p>
 <h2 id="手工管理事务"><a href="#手工管理事务" class="headerlink" title="手工管理事务"></a>手工管理事务</h2><h3 id="PlatformTransactionManager"><a href="#PlatformTransactionManager" class="headerlink" title="PlatformTransactionManager"></a>PlatformTransactionManager</h3><p>另外一种常见的方法就是手工管理事务，主要是下面三个组件</p>
 <ul>
 <li><code>PlatformTransactionManager</code></li>
@@ -288,9 +280,14 @@
 
 <p>代码示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span>  </span><br><span class="line"><span class="keyword">private</span> TransactionTemplate transactionTemplate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">func</span><span class="params">()</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);  </span><br><span class="line">    transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);  </span><br><span class="line">  </span><br><span class="line">    <span class="type">Object</span> <span class="variable">execute</span> <span class="operator">=</span> transactionTemplate.execute(callback -&gt; &#123;  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">savepoint</span> <span class="operator">=</span> callback.createSavepoint();  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="comment">//事务操作  </span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            callback.rollbackToSavepoint(savepoint);  </span><br><span class="line">  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;  </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
+<h2 id="一些实践"><a href="#一些实践" class="headerlink" title="一些实践"></a>一些实践</h2><ol>
+<li>避免长事务</li>
+<li>先做业务逻辑判断，再进行数据库写操作</li>
+<li>避免大事务</li>
+<li>减少慢SQL，查询要走索引</li>
+<li>扫表要进行深分页，加主键索引作为查询条件</li>
+<li>考虑主从延迟，避免空指针，从库查不到查主库</li>
+</ol>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_16065421/6183202">https://blog.51cto.com/u_16065421/6183202</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LQBlog/p/5468023.html">https://www.cnblogs.com/LQBlog/p/5468023.html</a></li>
@@ -346,7 +343,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">tuzuku</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -354,7 +351,7 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 
