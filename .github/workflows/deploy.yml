@@ -1,0 +1,55 @@
+name: Deploy Hexo site to Pages
+
+on:
+  # 监听main分支的推送事件
+  push:
+    branches: [main]
+  # 允许手动触发
+  workflow_dispatch:
+
+# 设置GITHUB_TOKEN的权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 只允许一个并发部署
+concurrency:
+  group: pages
+  cancel-in-progress: false
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 检出代码
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      # 设置Node.js环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+          
+      # 安装依赖
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install hexo-cli -g
+          
+      # 构建
+      - name: Build
+        run: |
+          hexo clean
+          hexo generate
+          
+      # 部署到gh-pages分支
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public # Hexo生成的静态文件目录
+          branch: gh-pages # 部署的目标分支
+          clean: true # 清理旧文件
