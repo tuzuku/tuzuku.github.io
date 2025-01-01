@@ -2,7 +2,7 @@ name: Deploy Hexo site to Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # 或者 master，取决于你的默认分支
   workflow_dispatch:
 
 permissions:
@@ -13,71 +13,43 @@ permissions:
 concurrency:
   group: pages
   cancel-in-progress: false
-  
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        
-      - name: Set up Node.js
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          cache: 'npm'
-          
-      # 清理和准备工作
-      - name: Prepare Environment
+          node-version: '16'
+          cache: npm
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build with Hexo
         run: |
-          echo "Current directory: $(pwd)"
-          echo "Directory content:"
-          ls -la
-          
-      # 安装基础依赖
-      - name: Install Basic Dependencies
-        run: |
-          npm install hexo-cli -g
-          
-      # 安装项目依赖
-      - name: Install Project Dependencies
-        run: |
-          npm install
-          
-      # 专门处理主题安装
-      - name: Install Theme
-        run: |
-          npm install hexo-theme-butterfly --save
-          npm install hexo-renderer-pug hexo-renderer-stylus --save
-          echo "Node modules content:"
-          ls -la node_modules
-          echo "Themes directory content:"
-          ls -la themes || mkdir -p themes
-          echo "Package.json content:"
-          cat package.json
-          
-      # 检查主题配置
-      - name: Check Theme Configuration
-        run: |
-          echo "Current _config.yml content:"
-          cat _config.yml
-          
-      # 构建
-      - name: Build
-        run: |
-          hexo clean
-          hexo generate
-          
-      # 检查生成的文件
-      - name: Check Generated Files
-        run: |
-          echo "Public directory content:"
-          ls -la public || echo "Public directory not found"
-          
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+          npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          folder: public
-          branch: gh-pages
-          clean: true
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

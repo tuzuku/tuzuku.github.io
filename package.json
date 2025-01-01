@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "npx patch-package",
+    "patch": "npx patch-package hexo-theme-butterfly",
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
