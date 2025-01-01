@@ -21,26 +21,59 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          submodules: 'recursive'  # 如果使用submodule则需要这行
-          
+        
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           cache: 'npm'
           
-      - name: Install Dependencies
+      # 清理和准备工作
+      - name: Prepare Environment
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Directory content:"
+          ls -la
+          
+      # 安装基础依赖
+      - name: Install Basic Dependencies
+        run: |
+          npm install hexo-cli -g
+          
+      # 安装项目依赖
+      - name: Install Project Dependencies
         run: |
           npm install
-          npm install hexo-cli -g
-          npm install hexo-theme-butterfly --save  # 确保安装主题
-          npm install hexo-renderer-pug hexo-renderer-stylus --save  # 安装主题依赖
           
+      # 专门处理主题安装
+      - name: Install Theme
+        run: |
+          npm install hexo-theme-butterfly --save
+          npm install hexo-renderer-pug hexo-renderer-stylus --save
+          echo "Node modules content:"
+          ls -la node_modules
+          echo "Themes directory content:"
+          ls -la themes || mkdir -p themes
+          echo "Package.json content:"
+          cat package.json
+          
+      # 检查主题配置
+      - name: Check Theme Configuration
+        run: |
+          echo "Current _config.yml content:"
+          cat _config.yml
+          
+      # 构建
       - name: Build
         run: |
           hexo clean
           hexo generate
+          
+      # 检查生成的文件
+      - name: Check Generated Files
+        run: |
+          echo "Public directory content:"
+          ls -la public || echo "Public directory not found"
           
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
