@@ -17,7 +17,7 @@ nav:
   fixed: false
 
 menu:
-  # 主页: / || fas fa-home
+  主页: / || fas fa-home
   归档: /archives/ || fas fa-book
   分类: /categories/ || fas fa-list-ul
   标签: /tags/ || fas fa-tags
@@ -47,7 +47,7 @@ code_blocks:
 #   icon: link || the description || color
 social:
   fab fa-github: https://github.com/tuzuku || Github || '#24292e'
-  # fas fa-envelope: mailto:xxxxxx@gmail.com || Email || '#4a7dbe'
+  fas fa-envelope: mailto:chowt1120@gmail.com || Email || '#4a7dbe'
 
 # --------------------------------------
 # Image Settings
@@ -60,48 +60,48 @@ avatar:
   effect: false
 
 # Disable all banner images
-disable_top_img: true
+disable_top_img: false
 
 # If the banner of page not setting, it will show the default_top_img
-default_top_img:
+default_top_img: false
 
 # The banner image of index page
-index_img:
+index_img: false
 
 # The banner image of archive page
-archive_img:
+archive_img:  /images/default-cover.jpg
 
 # Note: tag page, not tags page
-tag_img:
-
+tag_img: /images/default-cover.jpg
 # The banner image of tag page, you can set the banner image for each tag
 # Format:
 #  - tag name: xxxxx
-tag_per_img:
+tag_per_img:  /images/default-cover.jpg
 
 # Note: category page, not categories page
-category_img:
+category_img:  /images/default-cover.jpg
 
 # The banner image of category page, you can set the banner image for each category
 # Format:
 #  - category name: xxxxx
-category_per_img:
+category_per_img:  /images/default-cover.jpg
 
 # The background image of footer
 footer_img: false
 
 # Website Background
 # Can set it to color or image url
-background:
+background: false
 
 cover:
   # Disable the cover or not
   index_enable: true
   aside_enable: true
   archives_enable: true
+  position: both
   # When cover is not set, the default cover is displayed
   default_cover:
-    # - xxx.jpg
+    - /images/default-cover.jpg
 
 # Replace Broken Images
 error_img:

@@ -3,6 +3,8 @@ title: Hello World
 tags: Blog
 categories: Blog
 date: 2025-01-01 15:07:22
+cover: /images/default-cover.jpg
+
 ---
 
 ![test](https://avatars.githubusercontent.com/u/98461487?s=400&u=54a8c79959cad52e6b576f696e13e2c66346de03&v=4)
