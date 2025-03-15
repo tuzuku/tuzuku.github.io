@@ -21,7 +21,7 @@ menu:
   归档: /archives/ || fas fa-book
   分类: /categories/ || fas fa-list-ul
   标签: /tags/ || fas fa-tags
-  周报: /weekly/ || fas fa-calendar-alt
+  # 周报: /weekly/ || fas fa-calendar-alt
   关于我: /about/ || fas fa-code
 
 # --------------------------------------
