@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tuzuku.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Spirng 常用注解总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 常用注解总结">
+<meta property="og:url" content="https://tuzuku.github.io/2023/04/05/spring-annotations/index.html">
+<meta property="og:site_name" content="Tuzuku&#39;s Blog">
+<meta property="og:description" content="Spirng 常用注解总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-05T00:40:35.000Z">
+<meta property="article:modified_time" content="2025-04-26T00:43:42.155Z">
+<meta property="article:author" content="Tuzuku">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="注解">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://tuzuku.github.io/2023/04/05/spring-annotations/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://tuzuku.github.io/2023/04/05/spring-annotations/","path":"2023/04/05/spring-annotations/","title":"Spring 常用注解总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Spring 常用注解总结 | Tuzuku's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Tuzuku's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">组件注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Component"><span class="nav-number">1.1.</span> <span class="nav-text">@Component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service"><span class="nav-number">1.2.</span> <span class="nav-text">@Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Repository"><span class="nav-number">1.3.</span> <span class="nav-text">@Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">1.4.</span> <span class="nav-text">@Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RestController"><span class="nav-number">1.5.</span> <span class="nav-text">@RestController</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3"><span class="nav-number">2.</span> <span class="nav-text">配置相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">2.1.</span> <span class="nav-text">@Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean"><span class="nav-number">2.2.</span> <span class="nav-text">@Bean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Value"><span class="nav-number">2.3.</span> <span class="nav-text">@Value</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConfigurationProperties"><span class="nav-number">2.4.</span> <span class="nav-text">@ConfigurationProperties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">注入注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Autowried"><span class="nav-number">3.1.</span> <span class="nav-text">@Autowried</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Qualifier"><span class="nav-number">3.2.</span> <span class="nav-text">@Qualifier</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E6%B3%A8%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">功能注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transcational"><span class="nav-number">4.1.</span> <span class="nav-text">@Transcational</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Retryable-%E5%92%8C-Recover"><span class="nav-number">4.2.</span> <span class="nav-text">@Retryable 和@Recover</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Aync"><span class="nav-number">4.3.</span> <span class="nav-text">@Aync</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5"><span class="nav-number"></span> <span class="nav-text">链接</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tuzuku</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tuzuku.github.io/2023/04/05/spring-annotations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tuzuku">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tuzuku's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Spring 常用注解总结 | Tuzuku's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring 常用注解总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-05 08:40:35" itemprop="dateCreated datePublished" datetime="2023-04-05T08:40:35+08:00">2023-04-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>Spirng 常用注解总结</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="组件注解"><a href="#组件注解" class="headerlink" title="组件注解"></a>组件注解</h2><h3 id="Component"><a href="#Component" class="headerlink" title="@Component"></a>@Component</h3><ul>
+<li>组件注解，Spring boot 会将指定路径下标注了@Component 注解的类自动加载，默认单例加载，如果要声明对多例，则需要使用@Scope 注解进行定义声明。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class UserServiceImpl &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>多例BEAN</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Scope;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Scope(&quot;prototype&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrototypeBean</span> &#123;</span><br><span class="line">    <span class="comment">// 类的实现</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>目标对象是类级别</li>
+</ul>
+<h3 id="Service"><a href="#Service" class="headerlink" title="@Service"></a>@Service</h3><p>是@Component 的别名，作用同@Component</p>
+<ul>
+<li>声明业务层</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Repository"><a href="#Repository" class="headerlink" title="@Repository"></a>@Repository</h3><p>是@Component 的别名，作用同@Component</p>
+<ul>
+<li>数据访问层</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Repository</span><br><span class="line">public class UserRepositoryImpl &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h3><p>是@Component 的别名，作用同@Component</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class UserController &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a>@RestController</h3><p>REST API 注解。是@Controller 和@ResponseBody 的的组合</p>
+<ul>
+<li>Spring Web</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Controller</span><br><span class="line">@ResponseBody</span><br><span class="line">public @interface RestController &#123;</span><br><span class="line">​</span><br><span class="line">    /**</span><br><span class="line">     * The value may indicate a suggestion for a logical component name,</span><br><span class="line">     * to be turned into a Spring bean in case of an autodetected component.</span><br><span class="line">     * @return the suggested component name, if any (or empty String otherwise)</span><br><span class="line">     * @since 4.0.1</span><br><span class="line">     */</span><br><span class="line">    @AliasFor(annotation = Controller.class)</span><br><span class="line">    String value() default &quot;&quot;;</span><br><span class="line">​</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置相关"><a href="#配置相关" class="headerlink" title="配置相关"></a>配置相关</h2><h3 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h3><p>声明一个类中的多个<code>@Bean</code>方法可以会被spring 容器处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class AppConfig &#123;</span><br><span class="line">​</span><br><span class="line">     @Bean</span><br><span class="line">     public MyBean myBean() &#123;</span><br><span class="line">         // instantiate, configure and return bean ...</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Bean"><a href="#Bean" class="headerlink" title="@Bean"></a>@Bean</h3><p>声明一个类会生成一个bean 将被Spring 容器管理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      @Bean</span><br><span class="line">      public MyBean myBean() &#123;</span><br><span class="line">          // instantiate and configure MyBean obj</span><br><span class="line">          return obj;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h3><p>用于方法或者构造器参数，声明一个默认的表达式，可以用于读取外部配置文件</p>
+<h3 id="ConfigurationProperties"><a href="#ConfigurationProperties" class="headerlink" title="@ConfigurationProperties"></a>@ConfigurationProperties</h3><p>与@Configuration 结合使用，绑定外部配置的properties 或者yaml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@ConfigurationProperties(prefix = &quot;xxx.xx&quot;)</span><br><span class="line">public class ParamsConfig &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>相较于Value 注解，ConfigurationProperties 可以注入复杂类型；比如list 、map 等</strong></p>
+<p>配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;complex.config&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ComplexConfigProperties</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; simpleList;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, String&gt; simpleMap;</span><br><span class="line">    <span class="keyword">private</span> List&lt;NestedObject&gt; nestedList;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// standard getters and setters</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">NestedObject</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> String name;</span><br><span class="line">        <span class="keyword">private</span> <span class="type">int</span> value;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// standard getters and setters</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">complex:</span></span><br><span class="line">  <span class="attr">config:</span></span><br><span class="line">    <span class="attr">simpleList:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">listValue1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">listValue2</span></span><br><span class="line">    <span class="attr">simpleMap:</span></span><br><span class="line">      <span class="attr">key1:</span> <span class="string">value1</span></span><br><span class="line">      <span class="attr">key2:</span> <span class="string">value2</span></span><br><span class="line">    <span class="attr">nestedList:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nestedName1</span></span><br><span class="line">        <span class="attr">value:</span> <span class="number">1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nestedName2</span></span><br><span class="line">        <span class="attr">value:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="注入注解"><a href="#注入注解" class="headerlink" title="注入注解"></a>注入注解</h2><h3 id="Autowried"><a href="#Autowried" class="headerlink" title="@Autowried"></a>@Autowried</h3><p>在Spring Boot 自动装配了上面的类之后，如果想在类中使用其他组件的类，可以使用 @Autowried 注解进行注入</p>
+<h3 id="Qualifier"><a href="#Qualifier" class="headerlink" title="@Qualifier"></a>@Qualifier</h3><p>当定义了一个Service Interface 存在多个实现时，一般都是按照名称进行注入对应的实例，如果需要按照名称指定对应的类的话，就可以使用@Qualifier 注解指定对应名称的Service</p>
+<h2 id="功能注解"><a href="#功能注解" class="headerlink" title="功能注解"></a>功能注解</h2><p>功能注解通常是基于Spring AOP 进行动态代理实现，所以在使用时要注意代理是否生效。</p>
+<h3 id="Transcational"><a href="#Transcational" class="headerlink" title="@Transcational"></a>@Transcational</h3><p>事务注解，可通过订单指定的异常类进行触发，默认为Throable.class 触发事务回滚</p>
+<p>事务隔离级别（4个）：</p>
+<ul>
+<li>读未提交</li>
+<li>读已提交</li>
+<li>可重复读</li>
+<li>串行化</li>
+</ul>
+<p>事务传播级别（7个）：</p>
+<ul>
+<li>REQUIRED ，当存在事务时则继续使用当前事务，如果当前不存在事务，则创建一个新的事务</li>
+<li>SUPPORTS，当前存在事务则继续使用当前事务，如果不存在事务则不创建</li>
+<li>MANDATORY，支持当前事务，如果当前不存在事务则抛出异常</li>
+<li>REQUIRES_NEW ，不论存在还是不存在事务，都创建一个新的事务</li>
+<li>NOT_SUPPORTED，如果存在事务则暂停当前事务，声明当前方法不在事务内执行</li>
+<li>NEVER，不支持事务，如果当前存在事务则抛出异常</li>
+<li>NESTED</li>
+</ul>
+<h3 id="Retryable-和-Recover"><a href="#Retryable-和-Recover" class="headerlink" title="@Retryable 和@Recover"></a>@Retryable 和@Recover</h3><ul>
+<li>需要引入spring-retry</li>
+<li>并且开启重试配置</li>
+</ul>
+<p>重试注解，与事务注解一样，当抛出指定异常时会进行回滚，可以指定重试次数、重试策略（重试时间、每次增加多少秒）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Retryable(value = Throwable.class, backoff = @Backoff(multiplier = 2))</span><br><span class="line">void pushMessage()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Aync"><a href="#Aync" class="headerlink" title="@Aync"></a>@Aync</h3><p>异步注解，方法级别的注解，在方法上标注@Aysnc 在正常调用下，方法里面的业务逻辑会异步执行，默认放到spring 的taskExecutor 这个线程池里面执行，线程池可通过配置类统一配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Async</span><br><span class="line">void pushMessage()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/java-chen-hao/category/1480619.html">Spring 源码分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/09/05/java-bytecode-enhancement.html">字节码增强技术</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/java-chen-hao/category/1587029.html">Spring Boot 源码分析</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Spring/" rel="tag"># Spring</a>
+              <a href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag"># 注解</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/04/26/chain-of-responsibility/" rel="next" title="「设计模式」责任链模式">
+                  「设计模式」责任链模式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tuzuku</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
