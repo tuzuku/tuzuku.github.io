@@ -1,300 +1,267 @@
-// Mobile menu toggle
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.querySelector('.nav-menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
+// utils
+const util = {
+
+  // https://github.com/jerryc127/hexo-theme-butterfly
+  diffDate: (d, more = false) => {
+    const dateNow = new Date()
+    const datePost = new Date(d)
+    const dateDiff = dateNow.getTime() - datePost.getTime()
+    const minute = 1000 * 60
+    const hour = minute * 60
+    const day = hour * 24
+
+    let result
+    if (more) {
+      const dayCount = dateDiff / day
+      const hourCount = dateDiff / hour
+      const minuteCount = dateDiff / minute
+
+      if (dayCount > 14) {
+        result = null
+      } else if (dayCount >= 1) {
+        result = parseInt(dayCount) + ' ' + ctx.date_suffix.day
+      } else if (hourCount >= 1) {
+        result = parseInt(hourCount) + ' ' + ctx.date_suffix.hour
+      } else if (minuteCount >= 1) {
+        result = parseInt(minuteCount) + ' ' + ctx.date_suffix.min
+      } else {
+        result = ctx.date_suffix.just
+      }
+    } else {
+      result = parseInt(dateDiff / day)
     }
-    
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href !== '#' && href !== '') {
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }
-        });
-    });
-    
-    // Add scroll effect to navigation
-    let lastScroll = 0;
-    const nav = document.querySelector('.nav');
-    
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll <= 0) {
-            nav.classList.remove('scroll-up');
-            return;
-        }
-        
-        if (currentScroll > lastScroll && !nav.classList.contains('scroll-down')) {
-            nav.classList.remove('scroll-up');
-            nav.classList.add('scroll-down');
-        } else if (currentScroll < lastScroll && nav.classList.contains('scroll-down')) {
-            nav.classList.remove('scroll-down');
-            nav.classList.add('scroll-up');
-        }
-        lastScroll = currentScroll;
-    });
-    
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Observe blog cards
-    document.querySelectorAll('.blog-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(card);
-    });
-    
-    // Button ripple effect
-    document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-    
-    // Generate table of contents for post pages
-    const postToc = document.getElementById('post-toc');
-    const postContent = document.querySelector('.post-content');
-    
-    if (postToc && postContent) {
-        const headings = postContent.querySelectorAll('h2, h3, h4');
-        const tocItems = [];
-        const existingIds = new Set();
-        
-        // 收集所有现有ID
-        document.querySelectorAll('[id]').forEach(el => {
-            if (el.id) existingIds.add(el.id);
-        });
-        
-        headings.forEach((heading, index) => {
-            // 为标题添加ID
-            let id = heading.id;
-            if (!id || existingIds.has(id)) {
-                // 从标题文本生成一个合适的ID
-                const text = heading.textContent.trim();
-                id = 'heading-' + text.toLowerCase()
-                    .replace(/[^\w\u4e00-\u9fa5\s-]/g, '') // 保留中文、英文、数字、连字符
-                    .replace(/\s+/g, '-') // 空格替换为连字符
-                    .replace(/-+/g, '-') // 多个连字符合并为一个
-                    .replace(/^-|-$/g, '') // 移除首尾连字符
-                    .substring(0, 50); // 限制长度
-                
-                if (!id) id = 'heading-' + index;
-                
-                // 确保ID唯一
-                let uniqueId = id;
-                let counter = 1;
-                while (existingIds.has(uniqueId)) {
-                    uniqueId = id + '-' + counter;
-                    counter++;
-                }
-                id = uniqueId;
-                heading.id = id;
-                existingIds.add(id);
-            }
-            
-            // 创建目录项
-            const level = parseInt(heading.tagName.charAt(1)); // h2 -> 2, h3 -> 3, etc.
-            tocItems.push({
-                id: id,
-                text: heading.textContent.trim(),
-                level: level
-            });
-        });
-        
-        // 生成目录HTML
-        if (tocItems.length > 0) {
-            let tocHtml = '';
-            tocItems.forEach(item => {
-                const indent = item.level > 2 ? 'padding-left: ' + ((item.level - 2) * 16) + 'px;' : '';
-                tocHtml += `<a href="#${item.id}" class="sidebar-link toc-link" data-id="${item.id}" style="${indent}">${item.text}</a>`;
-            });
-            postToc.innerHTML = tocHtml;
-            
-            // 平滑滚动
-            postToc.querySelectorAll('.toc-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const target = document.getElementById(targetId);
-                    if (target) {
-                        const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - 100;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                        // 更新active状态
-                        postToc.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
-                        this.classList.add('active');
-                    }
-                });
-            });
-            
-            // 监听滚动，高亮当前章节
-            const observerOptions = {
-                rootMargin: '-120px 0px -60% 0px',
-                threshold: [0, 0.1, 0.5, 1]
-            };
-            
-            let activeHeading = null;
-            
-            const tocObserver = new IntersectionObserver(function(entries) {
-                // 找到最接近顶部的可见标题
-                const visibleHeadings = entries
-                    .filter(entry => entry.isIntersecting)
-                    .sort((a, b) => {
-                        const aTop = a.boundingClientRect.top;
-                        const bTop = b.boundingClientRect.top;
-                        return Math.abs(aTop - 120) - Math.abs(bTop - 120);
-                    });
-                
-                if (visibleHeadings.length > 0) {
-                    const newActiveHeading = visibleHeadings[0].target;
-                    if (newActiveHeading !== activeHeading) {
-                        activeHeading = newActiveHeading;
-                        const id = newActiveHeading.id;
-                        const tocLink = postToc.querySelector(`.toc-link[data-id="${id}"]`);
-                        
-                        if (tocLink) {
-                            // 移除所有active类
-                            postToc.querySelectorAll('.toc-link').forEach(link => {
-                                link.classList.remove('active');
-                            });
-                            // 添加active类到当前链接
-                            tocLink.classList.add('active');
-                        }
-                    }
-                }
-            }, observerOptions);
-            
-            // 观察所有标题
-            headings.forEach(heading => {
-                if (heading.id) {
-                    tocObserver.observe(heading);
-                }
-            });
-            
-            // 初始化：高亮第一个标题（如果页面顶部）
-            if (window.pageYOffset < 100 && tocItems.length > 0) {
-                const firstLink = postToc.querySelector('.toc-link');
-                if (firstLink) {
-                    firstLink.classList.add('active');
-                }
-            }
-        } else {
-            postToc.innerHTML = '<p style="color: var(--md-sys-color-on-surface-variant); font-size: 0.875rem; padding: var(--md-sys-spacing-2) var(--md-sys-spacing-3);">暂无目录</p>';
-        }
+    return result
+  },
+
+  copy: (id, msg) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.select();
+      document.execCommand("Copy");
+      if (msg && msg.length > 0) {
+        hud.toast(msg, 2500);
+      }
     }
+  },
+
+  toggle: (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.toggle("display");
+    }
+  },
+
+  scrollTop: () => {
+    window.scrollTo({top: 0, behavior: "smooth"});
+  },
+
+  scrollComment: () => {
+    document.getElementById('comments').scrollIntoView({behavior: "smooth"});
+  },
+
+  viewportLazyload: (target, func, enabled = true) => {
+    if (!enabled || !("IntersectionObserver" in window)) {
+      func();
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio > 0) {
+        func();
+        observer.disconnect();
+      }
+    });
+    observer.observe(target);
+  }
+}
+
+const hud = {
+  toast: (msg, duration) => {
+    const d = Number(isNaN(duration) ? 2000 : duration);
+    var el = document.createElement('div');
+    el.classList.add('toast');
+    el.classList.add('show');
+    el.innerHTML = msg;
+    document.body.appendChild(el);
+
+    setTimeout(function(){ document.body.removeChild(el) }, d);
     
-    // 为代码块添加复制按钮
-    const codeBlocks = document.querySelectorAll('.post-content pre');
-    codeBlocks.forEach((preBlock, index) => {
-        // 检查是否已经有复制按钮
-        if (preBlock.parentElement.classList.contains('code-block-wrapper')) {
-            return;
+  },
+
+}
+
+// defines
+
+const l_body = document.querySelector('.l_body');
+
+
+const init = {
+  toc: () => {
+    utils.jq(() => {
+      const scrollOffset = 32;
+      var segs = [];
+      $("article.md-text :header").each(function (idx, node) {
+        segs.push(node);
+      });
+      function activeTOC() {
+        var scrollTop = $(this).scrollTop();
+        var topSeg = null;
+        for (var idx in segs) {
+          var seg = $(segs[idx]);
+          if (seg.offset().top > scrollTop + scrollOffset) {
+            continue;
+          }
+          if (!topSeg) {
+            topSeg = seg;
+          } else if (seg.offset().top >= topSeg.offset().top) {
+            topSeg = seg;
+          }
         }
-        
-        // 创建包装器
-        const wrapper = document.createElement('div');
-        wrapper.className = 'code-block-wrapper';
-        
-        // 创建复制按钮
-        const copyButton = document.createElement('button');
-        copyButton.className = 'code-copy-button';
-        copyButton.setAttribute('aria-label', '复制代码');
-        copyButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
+        if (topSeg) {
+          $("#data-toc a.toc-link").removeClass("active");
+          var link = "#" + topSeg.attr("id");
+          if (link != '#undefined') {
+            const highlightItem = $('#data-toc a.toc-link[href="' + encodeURI(link) + '"]');
+            if (highlightItem.length > 0) {
+              highlightItem.addClass("active");
+            }
+          } else {
+            $('#data-toc a.toc-link:first').addClass("active");
+          }
+        }
+      }
+      function scrollTOC() {
+        const e0 = document.querySelector('#data-toc .toc');
+        const e1 = document.querySelector('#data-toc .toc a.toc-link.active');
+        if (e0 == null || e1 == null) {
+          return;
+        }
+        const offsetBottom = e1.getBoundingClientRect().bottom - e0.getBoundingClientRect().bottom + 100;
+        const offsetTop = e1.getBoundingClientRect().top - e0.getBoundingClientRect().top - 64;
+        if (offsetTop < 0) {
+          e0.scrollBy({top: offsetTop, behavior: "smooth"});
+        } else if (offsetBottom > 0) {
+          e0.scrollBy({top: offsetBottom, behavior: "smooth"});
+        }
+      }
+      
+      var timeout = null;
+      window.addEventListener('scroll', function() {
+        activeTOC();
+        if(timeout !== null) clearTimeout(timeout);
+        timeout = setTimeout(function() {
+          scrollTOC();
+        }.bind(this), 50);
+      });      
+    })
+  },
+  sidebar: () => {
+    utils.jq(() => {
+      $("#data-toc a.toc-link").click(function (e) {
+        sidebar.dismiss();
+      });
+    })
+  },
+  relativeDate: (selector) => {
+    selector.forEach(item => {
+      const $this = item
+      const timeVal = $this.getAttribute('datetime')
+      let relativeValue = util.diffDate(timeVal, true)
+      if (relativeValue) {
+        $this.innerText = relativeValue
+      }
+    })
+  },
+  /**
+   * Tabs tag listener (without twitter bootstrap).
+   */
+  registerTabsTag: function () {
+    // Binding `nav-tabs` & `tab-content` by real time permalink changing.
+    document.querySelectorAll('.tabs .nav-tabs .tab').forEach(element => {
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        // Prevent selected tab to select again.
+        if (element.classList.contains('active')) return;
+        // Add & Remove active class on `nav-tabs` & `tab-content`.
+        [...element.parentNode.children].forEach(target => {
+          target.classList.toggle('active', target === element);
+        });
+        // https://stackoverflow.com/questions/20306204/using-queryselector-with-ids-that-are-numbers
+        const tActive = document.getElementById(element.querySelector('a').getAttribute('href').replace('#', ''));
+        [...tActive.parentNode.children].forEach(target => {
+          target.classList.toggle('active', target === tActive);
+        });
+        // Trigger event
+        tActive.dispatchEvent(new Event('tabs:click', {
+          bubbles: true
+        }));
+      });
+    });
+
+    window.dispatchEvent(new Event('tabs:register'));
+  },
+
+  canonicalCheck: () => {
+    const canonical = window.canonical;
+    function showTip(isOfficial = false) {
+      const meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex, nofollow';
+      document.head.appendChild(meta);
+      const notice = document.createElement('div');
+      const originalURL = `https://${canonical.originalHost}`;
+      if (isOfficial) {
+        notice.className = 'canonical-tip official';
+        notice.innerHTML = `
+        <a href="${originalURL}" target="_self" rel="noopener noreferrer">
+        本站为官方备用站，仅供应急。主站：${originalURL}
+        </a>
         `;
-        
-        // 获取代码内容
-        const codeElement = preBlock.querySelector('code');
-        const getCodeText = () => {
-            if (codeElement) {
-                return codeElement.textContent || codeElement.innerText;
-            }
-            return preBlock.textContent || preBlock.innerText;
-        };
-        
-        // 复制功能
-        copyButton.addEventListener('click', async function() {
-            const codeText = getCodeText();
-            try {
-                await navigator.clipboard.writeText(codeText);
-                this.classList.add('copied');
-                
-                setTimeout(() => {
-                    this.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                // 降级方案：使用传统方法
-                const textArea = document.createElement('textarea');
-                textArea.value = codeText;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    this.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        this.classList.remove('copied');
-                    }, 2000);
-                } catch (e) {
-                    console.error('复制失败:', e);
-                }
-                document.body.removeChild(textArea);
-            }
-        });
-        
-        // 包装代码块
-        preBlock.parentNode.insertBefore(wrapper, preBlock);
-        wrapper.appendChild(preBlock);
-        wrapper.appendChild(copyButton);
-    });
-});
+      } else {
+        notice.className = 'canonical-tip unofficial';
+        notice.innerHTML = `
+        <a href="${originalURL}" target="_self" rel="noopener noreferrer">
+        <div class="headline icon">☠️</div>
+        本站为非法克隆站，请前往官方源站访问。<br>
+        源站：${originalURL}
+        </a>
+        `;
+      }
+      document.body.appendChild(notice);
+    }
+    if (!canonical.originalHost) return;
+    const currentURL = new URL(window.location.href);
+    const currentHost = currentURL.hostname.replace(/^www\./, '');
+    if (currentHost == 'localhost') return;
+    const encodedCurrentHost = window.btoa(currentHost);
+    const isCurrentHostValid = canonical.encoded === encodedCurrentHost;
+    const canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (!canonicalTag) {
+      if (isCurrentHostValid) {
+        return;
+      }
+      if (canonical.officialHosts?.includes(currentHost)) {
+        showTip(true);
+        return;
+      }
+      showTip(false);
+      return;
+    }
+    const canonicalURL = new URL(canonicalTag.href);
+    const canonicalHost = canonicalURL.hostname.replace(/^www\./, '');
+    const encodedCanonicalHost = window.btoa(canonicalHost);
+    const isCanonicalHostValid = canonical.encoded === encodedCanonicalHost;
+    if (isCanonicalHostValid && isCurrentHostValid) {
+      return;
+    }
+    showTip(canonical.officialHosts?.includes(currentHost));
+  }
+
+}
+
+
+// init
+init.toc()
+init.sidebar()
+init.relativeDate(document.querySelectorAll('#post-meta time'))
+init.registerTabsTag()
+init.canonicalCheck()
