@@ -1,0 +1,57 @@
+baseURL = "https://tuzuku.github.io/"
+title = "Tuzuku's Blog"
+theme = "PaperMod"
+languageCode = "zh-cn"
+defaultContentLanguage = "zh"
+hasCJKLanguage = true
+paginate = 10
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[params]
+  env = "production"
+  description = "个人博客"
+  author = "Tuzuku"
+  defaultTheme = "auto"          # 跟随系统深浅色
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowToc = true                 # 文章目录
+  TocOpen = false
+  comments = false
+
+  [params.homeInfoParams]
+    Title = "你好，欢迎来到我的博客 👋"
+    Content = "这里记录我的学习、技术笔记与生活。"
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/tuzuku"
+
+[[menu.main]]
+  identifier = "posts"
+  name = "文章"
+  url = "/posts/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "archives"
+  name = "归档"
+  url = "/archives/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "tags"
+  name = "标签"
+  url = "/tags/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "search"
+  name = "搜索"
+  url = "/search/"
+  weight = 40
