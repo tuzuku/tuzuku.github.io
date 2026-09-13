@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "关于"
 url: "/about/"
 summary: about
 ShowToc: false
