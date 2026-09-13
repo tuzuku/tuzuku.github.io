@@ -1,7 +1,8 @@
 baseURL = "https://tuzuku.github.io/"
 title = "Tuzuku's Blog"
 theme = "PaperMod"
-languageCode = "zh-cn"
+languageCode = "zh-CN"
+locale = "zh-CN"
 defaultContentLanguage = "zh"
 hasCJKLanguage = true
 paginate = 10
@@ -55,3 +56,9 @@ paginate = 10
   name = "搜索"
   url = "/search/"
   weight = 40
+
+[[menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about/"
+  weight = 50

@@ -1,0 +1,23 @@
+---
+title: "我的FOMO"
+date: 2026-07-30T20:46:57+08:00
+draft: false
+cover:
+  image: "https://gcore.jsdelivr.net/gh/cdn-x/xaoxuu@main/posts/20250706150531375.jpg"
+  alt: ""
+  relative: false
+---
+FOMO =  Fear of missing Out. 
+
+指的是担心错过好事而焦虑。
+
+比如朋友去玩我不在场，我可能会焦虑自己错过了什么。
+
+最近有什么最新的技术，我会担心我是不是落伍了。
+
+投资的时候，因为担心“踏空” 而冲动追高。
+
+我有严重的拖延症，这样我的焦虑会更加严重。
+
+今天就不知道要做啥了。
+
