@@ -2,10 +2,6 @@
 title: "我的FOMO"
 date: 2026-07-30T20:46:57+08:00
 draft: false
-cover:
-  image: "https://gcore.jsdelivr.net/gh/cdn-x/xaoxuu@main/posts/20250706150531375.jpg"
-  alt: ""
-  relative: false
 ---
 FOMO =  Fear of missing Out. 
 

@@ -4,10 +4,6 @@ date: 2026-08-03T20:21:24+08:00
 draft: false
 tags: ["压力", "Andrew Huberman"]
 categories: ["学习", "知识记录"]
-cover:
-  image: "https://gcore.jsdelivr.net/gh/cdn-x/xaoxuu@main/posts/20250706150531375.jpg"
-  alt: ""
-  relative: false
 ---
 
 > 本文是对[Tools for Managing Stress & Anxiety | Huberman Lab Essentials](https://youtu.be/qUz93CyNIz0?si=EEqxPWrTndg-KnQE ) 的总结。
